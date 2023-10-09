@@ -39,13 +39,25 @@ class ModelTrainer:
             models = {
                 "Random Forest": RandomForestClassifier(),
                 "Decision Tree": DecisionTreeClassifier(),
-                "Linear Regression": LogisticRegression(),
-                "XGBRegressor": XGBRFClassifier(),
+                "Logistic Regression": LogisticRegression(),
+                "XGBClassifier": XGBRFClassifier(),
                 "KNeighbors": KNeighborsClassifier()
             }
 
+            param={
+             "Logistic Regression":{}, 
+             
+            "Decision Tree": {'criterion':["gini", "entropy", "log_loss"]},
+
+            "Random Forest":{'n_estimators': [8,16,32,64,128,256]},
+
+            "KNeighbors":{'algorithm' : ['auto', 'ball_tree', 'kd_tree', 'brute']},
+
+            "XGBClassifier":{'learning_rate':[.1,.01,.05,.001],'n_estimators': [8,16,32,64,128,256]}
+            }
+
             model_report:dict=evaluate_models(X_train=X_train,y_train=y_train,X_test=X_test,y_test=y_test,
-                                             models=models)
+                                             models=models,param=param)
 
             ## To get best model score from dict
             best_model_score = max(sorted(model_report.values()))
